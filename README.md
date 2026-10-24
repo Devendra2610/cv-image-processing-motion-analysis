@@ -24,8 +24,8 @@ This repository contains the complete, reproducible implementation of the Practi
    - Classical Viola-Jones Haar Cascade face detection vs. Ultralytics YOLOv8 deep learning
    - Inference latency, bounding box precision, and multi-class comparison
    - Edge/Failure case analysis: detector breakdown on rotated viewpoint ($45^\circ$)
-4. **Unit 5 (Task 4): Video Motion Estimation**
-   - Sequential video frame extraction
+4. **Unit 5 (Task 4): Video Motion Estimation (`video_1.mp4`)**
+   - Sequential video frame extraction from original mobile recording
    - Consecutive frame differencing ($|I_t - I_{t-1}| > T$)
    - Gaussian Mixture Model (GMM-MOG2) background subtraction with shadow suppression
    - Sparse Lucas–Kanade optical flow kinematic velocity vector tracking
@@ -39,13 +39,13 @@ CV/
 ├── data/                                # Input datasets
 │   ├── Image_org.jpeg                   # Primary original photograph (899x1599)
 │   ├── Image_2.jpeg                     # Paired photograph with perspective shift
-│   └── sample_video.mp4                 # 15s 30FPS motion video
+│   └── video_1.mp4                      # Original self-recorded video (1080x1920, 284 frames)
 ├── outputs/                             # Generated figures and quantitative metrics
 │   ├── task1_restoration/               # PSNR/SSIM charts, noisy & restored images
 │   ├── task1_segmentation/              # Thresholding, morphology, Canny, Watershed
 │   ├── task2_features/                  # HOG vector field, SIFT keypoints, matching
 │   ├── task3_recognition/               # Viola-Jones & YOLOv8 bounding boxes, failure case
-│   └── task4_motion/                    # Differencing, GMM mask, Optical Flow vectors
+│   └── task4_motion/                    # Differencing, GMM mask, Optical Flow vectors on video_1.mp4
 ├── task1_restoration_segmentation.py    # Unit 3 implementation script
 ├── task2_feature_matching.py            # Unit 4 implementation script
 ├── task3_object_recognition.py          # Unit 5 object recognition script
@@ -120,7 +120,7 @@ python task3_object_recognition.py --image data/Image_org.jpeg
 
 #### Task 4: Video Motion Estimation
 ```bash
-python task4_motion_estimation.py --video data/sample_video.mp4
+python task4_motion_estimation.py --video data/video_1.mp4
 ```
 *Outputs saved to `outputs/task4_motion/`.*
 
@@ -145,17 +145,17 @@ python generate_report.py
 
 ### 2. SIFT Invariance Evaluation
 - **Baseline Matches:** 470 inliers out of 674 raw matches (**69.73% retention**).
-- **Rotation ($45^\circ$):** 454 inliers out of 674 raw matches (**67.36% retention**), proving mathematical rotation invariance via canonical gradient assignment.
+- **Rotation ($45^\circ$):** 441 inliers out of 674 raw matches (**65.43% retention**), proving mathematical rotation invariance via canonical gradient assignment.
 - **Scaling ($0.6\times$):** 245 inliers out of 674 raw matches (**36.35% retention**), demonstrating scale-space pyramid matching under resolution downsampling.
 
 ### 3. Object Recognition: Viola-Jones vs. YOLOv8
-- **Speed:** Viola-Jones operates at ~478 ms on CPU; YOLOv8 performs deep CNN inference in ~3.7 s on CPU.
+- **Speed:** Viola-Jones operates at ~321 ms on CPU; YOLOv8 performs deep CNN inference in ~3.0 s on CPU.
 - **Failure Mode:** When tested on a $45^\circ$ rotated face, **Viola-Jones produced 0 detections (complete failure)** due to rigid axis-aligned Haar features. In contrast, **YOLOv8 successfully detected the person and face** due to deep translation/rotation-tolerant feature hierarchies.
 
-### 4. Video Motion Estimation Comparison
-- **Frame Differencing:** Real-time (>100 FPS), but creates double-ghost artifacts and fails completely when motion stops.
+### 4. Video Motion Estimation Comparison (`video_1.mp4`)
+- **Frame Differencing:** Real-time (>100 FPS), detects head/jaw movements immediately, but creates double-ghost artifacts and fails completely when motion stops.
 - **GMM Background Subtraction:** Produces robust silhouette masks, filters shadows, and preserves stopped objects.
-- **Lucas-Kanade Optical Flow:** Computes continuous kinematic 2D velocity vectors with explicit direction and magnitude.
+- **Lucas-Kanade Optical Flow:** Computes continuous kinematic 2D velocity vectors with explicit direction and magnitude (155 motion vectors tracking facial features and head turn).
 
 ---
 

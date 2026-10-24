@@ -24,16 +24,17 @@ This project presents an end-to-end implementation and quantitative evaluation o
 
 ## 2. Input Dataset Specifications
 ### 2.1 Original Photograph (`Image_org.jpeg`)
-- **Source:** High-resolution mobile phone camera capture.
+- **Source:** High-resolution original mobile phone camera capture.
 - **Resolution:** 899 x 1599 pixels, 24-bit RGB.
 - **Scene Characteristics:** Indoor office environment featuring subject (Devendra Agrawal) with identifiable lanyard text, facial contours, textured clothing, and background door/frame elements.
 - **Transformed Pair (`Image_2.jpeg`):** Paired view capturing perspective shift and illumination variation to benchmark matching invariance.
 
-### 2.2 Original Video (`sample_video.mp4` / `video.mp4`)
-- **Resolution:** 960 x 540 pixels (or 1080p).
-- **Frame Rate:** 30.0 FPS.
-- **Duration:** 15.0 seconds (450 frames).
-- **Motion Dynamics:** Moving person traversing an indoor environment from left to right, pausing (to evaluate stationary object absorption), and returning, with camera stability.
+### 2.2 Original Video (`video_1.mp4`)
+- **Source:** Original mobile phone camera recording.
+- **Resolution:** 1080 x 1920 pixels (Full HD Portrait).
+- **Frame Rate:** 29.97 FPS.
+- **Duration:** ~9.5 seconds (284 frames).
+- **Motion Dynamics:** Captures a Golden Retriever dog in an indoor living space turning its head, opening mouth/panting, and shifting gaze against a stable indoor background with sofa and architectural lines.
 
 ---
 
@@ -131,7 +132,7 @@ Multi-stage optimal edge detection: Gaussian smoothing -> Sobel gradient magnitu
 | **Rescaled Image 2 (0.6x downscaled)** | 674 | 398 | 674 | 245 | **36.35%** |
 
 #### Invariance Analysis
-- **Rotational Invariance (45 deg Rotation):** Retained **454 good matches (67.36% ratio)**, proving that SIFT's canonical gradient orientation assignment successfully normalizes keypoint descriptors regardless of image roll.
+- **Rotational Invariance (45 deg Rotation):** Retained **441 good matches (65.43% ratio)**, proving that SIFT's canonical gradient orientation assignment successfully normalizes keypoint descriptors regardless of image roll.
 - **Scale Invariance (0.6x Downscaling):** Maintained **245 good matches (36.35% ratio)**. Loss in keypoints is consistent with physical Nyquist-Shannon sampling limits at reduced spatial resolution.
 
 ![SIFT Matching Comparison](outputs/task2_features/feature_matching_comparison.png)
@@ -168,7 +169,7 @@ Multi-stage optimal edge detection: Gaussian smoothing -> Sobel gradient magnitu
 
 ---
 
-### 5.2 Task 4: Video Motion Estimation
+### 5.2 Task 4: Video Motion Estimation (`video_1.mp4`)
 #### Algorithmic Comparison Table
 | Technique | Underlying Principle | Computational Complexity | Camera Shake Sensitivity | Stationary Object Behavior | Ghosting Artifacts | Output Representation |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -176,13 +177,13 @@ Multi-stage optimal edge detection: Gaussian smoothing -> Sobel gradient magnitu
 | **GMM Background Subtraction (MOG2)** | Models pixel color distributions over time as a mixture of Gaussians | Moderate (~40-60 FPS, updates adaptive Gaussian parameters) | Moderate (Handles subtle background motion like leaves, tremors) | Good (Preserves stopped foreground for several frames before slow assimilation) | Minimal (Initial ghost clears quickly as background model converges) | Clean binary foreground segmentation mask with shadow suppression |
 | **Lucas-Kanade Optical Flow** | Solves optical flow equation under brightness constancy & spatial coherence | Moderate-High (Calculates spatial image gradients & 2x2 matrix inversions) | Shows global vector field (Global shift vs local object vectors) | Vectors drop to zero magnitude (Preserves tracked feature locations) | None (No background model or ghost silhouettes generated) | Continuous 2D velocity vectors (dx, dy) with direction and magnitude |
 
-#### Experimental Findings
-1. **Frame Differencing ($|I_t - I_{t-1}| > T$):** Highly responsive to instantaneous movement, but produces 'double ghosts' (silhouette at departure and arrival) and completely loses foreground pixels when movement stops.
-2. **GMM Background Subtraction (MOG2):** Models each pixel as a mixture of Gaussians, effectively modeling stationary background and isolating clean silhouette masks while suppressing shadow regions.
-3. **Lucas-Kanade Optical Flow:** Estimates true velocity vectors (dx, dy) for corner feature points, providing continuous directional trajectory information suitable for kinematic motion analysis.
+#### Experimental Findings on `video_1.mp4`
+1. **Frame Differencing ($|I_t - I_{t-1}| > T$):** Highly responsive to instantaneous movement (such as head turns, jaw and ear movements), but creates 'double ghosts' and completely loses foreground pixels when movement stops.
+2. **GMM Background Subtraction (MOG2):** Models each pixel as an adaptive Gaussian mixture over time. It effectively isolates the moving animal silhouette from the static indoor living room backdrop and eliminates shadow artifacts.
+3. **Lucas-Kanade Optical Flow:** Estimates true velocity vectors (dx, dy) for 155 tracked feature points (around the dog's eyes, nose, snout, and ears), providing dense continuous directional trajectory information showing head rotation and facial dynamics.
 
 ![Motion Estimation Comparison](outputs/task4_motion/motion_estimation_comparison.png)
-*Figure 9: Consecutive video frames, frame differencing mask, GMM background subtraction mask, Lucas-Kanade optical flow vectors, and tracked motion bounding boxes.*
+*Figure 9: Consecutive video frames, frame differencing mask, GMM background subtraction mask, Lucas-Kanade optical flow vectors, and tracked motion bounding boxes on video_1.mp4.*
 
 ---
 
@@ -190,7 +191,7 @@ Multi-stage optimal edge detection: Gaussian smoothing -> Sobel gradient magnitu
 Across Units 3, 4, and 5, this assignment demonstrated:
 1. **Restoration:** Non-linear median filtering is mandatory for impulse noise (PSNR 36.85 dB), whereas linear Gaussian filtering is optimal for additive Gaussian noise (PSNR 31.65 dB).
 2. **Segmentation:** Marker-controlled watershed eliminates classical oversegmentation by decoupling foreground seed generation from gradient topology.
-3. **Matching:** SIFT demonstrates exceptional rotational invariance (67.36% retention at 45 deg) and scale stability through orientation normalization and octave scale-spaces.
+3. **Matching:** SIFT demonstrates exceptional rotational invariance (65.43% retention at 45 deg) and scale stability through orientation normalization and octave scale-spaces.
 4. **Recognition:** Viola-Jones offers ultra-lightweight CPU face detection but is fragile to orientation; YOLOv8 provides robust multi-class detection across rotations.
 5. **Motion Estimation:** GMM background subtraction yields clean spatial object silhouettes, while Lucas-Kanade optical flow delivers kinematic direction and velocity vectors.
 
@@ -198,7 +199,7 @@ Across Units 3, 4, and 5, this assignment demonstrated:
 
 ## 7. Submission Checklist & Access Verification
 - [x] Executable source code pushed to Git repository.
-- [x] Dataset folder with original photograph and video (`data/`).
+- [x] Dataset folder with original photograph (`Image_org.jpeg`) and video (`video_1.mp4`).
 - [x] All generated output figures and metric JSON files in `outputs/`.
 - [x] Comprehensive documentation in Markdown (`REPORT.md`) and HTML (`REPORT.html`).
 - [x] Complete presentation video script (`presentation_script.md`).

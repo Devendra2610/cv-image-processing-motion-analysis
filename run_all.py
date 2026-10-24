@@ -11,7 +11,7 @@ import os
 from task1_restoration_segmentation import run_image_restoration, run_morphological_segmentation
 from task2_feature_matching import run_feature_matching_pipeline
 from task3_object_recognition import run_object_recognition
-from task4_motion_estimation import run_motion_estimation
+from task4_motion_estimation import run_motion_estimation, find_default_video
 
 
 def main():
@@ -24,7 +24,7 @@ def main():
 
     img1_path = "data/Image_org.jpeg"
     img2_path = "data/Image_2.jpeg"
-    video_path = "data/sample_video.mp4"
+    video_path = find_default_video()
 
     # Fallback checks
     if not os.path.exists(img1_path) and os.path.exists("Image_org.jpeg"):

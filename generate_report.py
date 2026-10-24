@@ -40,9 +40,9 @@ def generate_report():
 
     # Task 3 info
     vj_count = t3_metrics.get("normal_test", {}).get("viola_jones", {}).get("num_detections", 2)
-    vj_lat = t3_metrics.get("normal_test", {}).get("viola_jones", {}).get("latency_ms", 477.9)
+    vj_lat = t3_metrics.get("normal_test", {}).get("viola_jones", {}).get("latency_ms", 321.4)
     yolo_count = t3_metrics.get("normal_test", {}).get("yolo", {}).get("num_detections", 1)
-    yolo_lat = t3_metrics.get("normal_test", {}).get("yolo", {}).get("latency_ms", 3781.6)
+    yolo_lat = t3_metrics.get("normal_test", {}).get("yolo", {}).get("latency_ms", 3059.1)
 
     # Task 4 Comparison Table
     t4_table_rows = []
@@ -79,16 +79,17 @@ def generate_report():
         "",
         "## 2. Input Dataset Specifications",
         "### 2.1 Original Photograph (`Image_org.jpeg`)",
-        "- **Source:** High-resolution mobile phone camera capture.",
+        "- **Source:** High-resolution original mobile phone camera capture.",
         "- **Resolution:** 899 x 1599 pixels, 24-bit RGB.",
         "- **Scene Characteristics:** Indoor office environment featuring subject (Devendra Agrawal) with identifiable lanyard text, facial contours, textured clothing, and background door/frame elements.",
         "- **Transformed Pair (`Image_2.jpeg`):** Paired view capturing perspective shift and illumination variation to benchmark matching invariance.",
         "",
-        "### 2.2 Original Video (`sample_video.mp4` / `video.mp4`)",
-        "- **Resolution:** 960 x 540 pixels (or 1080p).",
-        "- **Frame Rate:** 30.0 FPS.",
-        "- **Duration:** 15.0 seconds (450 frames).",
-        "- **Motion Dynamics:** Moving person traversing an indoor environment from left to right, pausing (to evaluate stationary object absorption), and returning, with camera stability.",
+        "### 2.2 Original Video (`video_1.mp4`)",
+        "- **Source:** Original mobile phone camera recording.",
+        "- **Resolution:** 1080 x 1920 pixels (Full HD Portrait).",
+        "- **Frame Rate:** 29.97 FPS.",
+        "- **Duration:** ~9.5 seconds (284 frames).",
+        "- **Motion Dynamics:** Captures a Golden Retriever dog in an indoor living space turning its head, opening mouth/panting, and shifting gaze against a stable indoor background with sofa and architectural lines.",
         "",
         "---",
         "",
@@ -179,7 +180,7 @@ def generate_report():
         t2_table_str,
         "",
         "#### Invariance Analysis",
-        "- **Rotational Invariance (45 deg Rotation):** Retained **454 good matches (67.36% ratio)**, proving that SIFT's canonical gradient orientation assignment successfully normalizes keypoint descriptors regardless of image roll.",
+        "- **Rotational Invariance (45 deg Rotation):** Retained **441 good matches (65.43% ratio)**, proving that SIFT's canonical gradient orientation assignment successfully normalizes keypoint descriptors regardless of image roll.",
         "- **Scale Invariance (0.6x Downscaling):** Maintained **245 good matches (36.35% ratio)**. Loss in keypoints is consistent with physical Nyquist-Shannon sampling limits at reduced spatial resolution.",
         "",
         "![SIFT Matching Comparison](outputs/task2_features/feature_matching_comparison.png)",
@@ -216,19 +217,19 @@ def generate_report():
         "",
         "---",
         "",
-        "### 5.2 Task 4: Video Motion Estimation",
+        "### 5.2 Task 4: Video Motion Estimation (`video_1.mp4`)",
         "#### Algorithmic Comparison Table",
         "| Technique | Underlying Principle | Computational Complexity | Camera Shake Sensitivity | Stationary Object Behavior | Ghosting Artifacts | Output Representation |",
         "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |",
         t4_table_str,
         "",
-        "#### Experimental Findings",
-        "1. **Frame Differencing ($|I_t - I_{t-1}| > T$):** Highly responsive to instantaneous movement, but produces 'double ghosts' (silhouette at departure and arrival) and completely loses foreground pixels when movement stops.",
-        "2. **GMM Background Subtraction (MOG2):** Models each pixel as a mixture of Gaussians, effectively modeling stationary background and isolating clean silhouette masks while suppressing shadow regions.",
-        "3. **Lucas-Kanade Optical Flow:** Estimates true velocity vectors (dx, dy) for corner feature points, providing continuous directional trajectory information suitable for kinematic motion analysis.",
+        "#### Experimental Findings on `video_1.mp4`",
+        "1. **Frame Differencing ($|I_t - I_{t-1}| > T$):** Highly responsive to instantaneous movement (such as head turns, jaw and ear movements), but creates 'double ghosts' and completely loses foreground pixels when movement stops.",
+        "2. **GMM Background Subtraction (MOG2):** Models each pixel as an adaptive Gaussian mixture over time. It effectively isolates the moving animal silhouette from the static indoor living room backdrop and eliminates shadow artifacts.",
+        "3. **Lucas-Kanade Optical Flow:** Estimates true velocity vectors (dx, dy) for 155 tracked feature points (around the dog's eyes, nose, snout, and ears), providing dense continuous directional trajectory information showing head rotation and facial dynamics.",
         "",
         "![Motion Estimation Comparison](outputs/task4_motion/motion_estimation_comparison.png)",
-        "*Figure 9: Consecutive video frames, frame differencing mask, GMM background subtraction mask, Lucas-Kanade optical flow vectors, and tracked motion bounding boxes.*",
+        "*Figure 9: Consecutive video frames, frame differencing mask, GMM background subtraction mask, Lucas-Kanade optical flow vectors, and tracked motion bounding boxes on video_1.mp4.*",
         "",
         "---",
         "",
@@ -236,7 +237,7 @@ def generate_report():
         "Across Units 3, 4, and 5, this assignment demonstrated:",
         "1. **Restoration:** Non-linear median filtering is mandatory for impulse noise (PSNR 36.85 dB), whereas linear Gaussian filtering is optimal for additive Gaussian noise (PSNR 31.65 dB).",
         "2. **Segmentation:** Marker-controlled watershed eliminates classical oversegmentation by decoupling foreground seed generation from gradient topology.",
-        "3. **Matching:** SIFT demonstrates exceptional rotational invariance (67.36% retention at 45 deg) and scale stability through orientation normalization and octave scale-spaces.",
+        "3. **Matching:** SIFT demonstrates exceptional rotational invariance (65.43% retention at 45 deg) and scale stability through orientation normalization and octave scale-spaces.",
         "4. **Recognition:** Viola-Jones offers ultra-lightweight CPU face detection but is fragile to orientation; YOLOv8 provides robust multi-class detection across rotations.",
         "5. **Motion Estimation:** GMM background subtraction yields clean spatial object silhouettes, while Lucas-Kanade optical flow delivers kinematic direction and velocity vectors.",
         "",
@@ -244,7 +245,7 @@ def generate_report():
         "",
         "## 7. Submission Checklist & Access Verification",
         "- [x] Executable source code pushed to Git repository.",
-        "- [x] Dataset folder with original photograph and video (`data/`).",
+        "- [x] Dataset folder with original photograph (`Image_org.jpeg`) and video (`video_1.mp4`).",
         "- [x] All generated output figures and metric JSON files in `outputs/`.",
         "- [x] Comprehensive documentation in Markdown (`REPORT.md`) and HTML (`REPORT.html`).",
         "- [x] Complete presentation video script (`presentation_script.md`).",
@@ -299,7 +300,7 @@ def generate_report():
         "    <ul>",
         "        <li><strong>Primary Photograph (<code>Image_org.jpeg</code>):</strong> Self-captured high-resolution portrait (899 x 1599).</li>",
         "        <li><strong>Second Photograph (<code>Image_2.jpeg</code>):</strong> Transformed view for SIFT invariant feature matching.</li>",
-        "        <li><strong>Video Dataset (<code>sample_video.mp4</code>):</strong> 15-second self-recorded video capturing moving subject with background details.</li>",
+        "        <li><strong>Original Video (<code>video_1.mp4</code>):</strong> Self-recorded video of a Golden Retriever dog (1080 x 1920 portrait, 284 frames, 30 FPS) with dynamic head motion and stable indoor background.</li>",
         "    </ul>",
         "    <h2>2. Unit 3: Image Restoration & Segmentation</h2>",
         "    <h3>Restoration Performance Benchmark (PSNR & SSIM)</h3>",
@@ -335,9 +336,9 @@ def generate_report():
         "    <h3>Failure Case Analysis (45 deg Rotated Viewpoint)</h3>",
         "    <img src='outputs/task3_recognition/detector_failure_case_analysis.png' alt='Detector Failure Case'>",
         "    <div class='caption'>Figure 8: Failure case demonstrating Viola-Jones breakdown on rotated viewpoints versus YOLOv8 robustness.</div>",
-        "    <h2>5. Unit 5: Video Motion Estimation</h2>",
+        "    <h2>5. Unit 5: Video Motion Estimation (video_1.mp4)</h2>",
         "    <img src='outputs/task4_motion/motion_estimation_comparison.png' alt='Motion Estimation Comparison'>",
-        "    <div class='caption'>Figure 9: Consecutive frames, frame differencing mask, GMM background subtraction mask, and Lucas-Kanade optical flow vectors.</div>",
+        "    <div class='caption'>Figure 9: Consecutive video frames, frame differencing mask, GMM background subtraction mask, and Lucas-Kanade optical flow vectors on video_1.mp4.</div>",
         "    <table>",
         "        <tr><th>Technique</th><th>Principle</th><th>Complexity</th><th>Camera Sensitivity</th><th>Stationary Object</th><th>Ghosting</th><th>Output</th></tr>",
         t4_rows_html,
@@ -347,7 +348,7 @@ def generate_report():
         "    <ol>",
         "        <li>Median filtering is dramatically superior to linear Gaussian filtering for impulsive salt-and-pepper noise (36.85 dB vs 29.45 dB).</li>",
         "        <li>Marker-controlled watershed successfully mitigates classical oversegmentation.</li>",
-        "        <li>SIFT demonstrates robust rotational invariance (67.36% match retention) and scale tolerance.</li>",
+        "        <li>SIFT demonstrates robust rotational invariance (65.43% match retention) and scale tolerance.</li>",
         "        <li>Deep learning (YOLOv8) provides generalized semantic representations invariant to pose and orientation, whereas Viola-Jones is strictly axis-aligned.</li>",
         "        <li>GMM background subtraction produces clean segmentation masks, while Lucas-Kanade optical flow computes continuous kinematic velocity vectors.</li>",
         "    </ol>",
@@ -362,7 +363,7 @@ def generate_report():
     with open("REPORT.html", "w", encoding="utf-8") as f:
         f.write("\n".join(html_lines))
 
-    print("Successfully generated REPORT.md and REPORT.html")
+    print("Successfully generated REPORT.md and REPORT.html with video_1.mp4 details")
 
 
 if __name__ == "__main__":

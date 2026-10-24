@@ -16,7 +16,7 @@
   3. Task 1: Image Restoration & Segmentation (~1.5 min)
   4. Task 2: HOG & SIFT Feature Matching (~1.5 min)
   5. Task 3: Object Recognition (Viola-Jones vs. YOLOv8 & Failure Case) (~1.5 min)
-  6. Task 4: Video Motion Estimation & Tracking (~1 min)
+  6. Task 4: Video Motion Estimation & Tracking on `video_1.mp4` (~1.5 min)
   7. Conclusion & Wrap-up (~30 sec)
 
 ---
@@ -32,18 +32,18 @@
 > 1. *Image restoration using linear Gaussian filtering versus non-linear median filtering under Gaussian and Salt-and-Pepper noise, followed by morphological operations, Canny edge detection, and marker-controlled watershed segmentation.*
 > 2. *Feature extraction using HOG descriptors and SIFT keypoint detection to evaluate scale and rotation invariance.*
 > 3. *Object recognition comparing the classical Viola-Jones Haar Cascade detector with modern deep-learning YOLOv8, analyzing their speed and failure modes.*
-> 4. *Video motion estimation comparing Frame Differencing, GMM background subtraction, and Lucas-Kanade optical flow.*
+> 4. *Video motion estimation comparing Frame Differencing, GMM background subtraction, and Lucas-Kanade optical flow on an original video.*
 > 
 > *All implementations are written in Python using OpenCV, NumPy, Matplotlib, scikit-image, and Ultralytics YOLO.*
 
 ---
 
 ### [0:50 - 1:30] 2. Dataset Description
-**What to show on screen:** Open `data/Image_org.jpeg`, `data/Image_2.jpeg`, and play `data/sample_video.mp4`.
+**What to show on screen:** Open `data/Image_org.jpeg`, `data/Image_2.jpeg`, and play `data/video_1.mp4`.
 
 > *"For the dataset, I used my own photograph, `Image_org.jpeg`, captured indoors at 899 by 1599 resolution. It contains clear structural details, facial geometry, textured clothing, and background architectural lines. I also generated a paired second image, `Image_2.jpeg`, with perspective and lighting adjustments to benchmark matching invariance.*
 > 
-> *For the video tasks, I used a self-recorded video showing a person moving across an indoor room with a desk, door, and window. The camera is kept stable, allowing us to evaluate foreground motion and test how algorithms handle stopped objects."*
+> *For the video tasks, I used my self-recorded video, `video_1.mp4`, recorded in Full HD (1080 by 1920) at 30 FPS. It captures a Golden Retriever dog in an indoor living space turning its head, opening its mouth, and shifting its gaze against a stable room background. This provides rich natural motion dynamics and fine textured features for motion tracking."*
 
 ---
 
@@ -74,7 +74,7 @@
 > *Next, I used SIFT—Scale Invariant Feature Transform—to detect keypoints and compute 128-dimensional descriptors. I matched keypoints between Image 1 and Image 2 using a Brute-Force Matcher combined with David Lowe's ratio test at 0.75.*
 > 
 > *To rigorously test SIFT's invariance properties, I conducted two experiments:*
-> 1. *First, I rotated Image 2 by 45 degrees. SIFT retained 454 good inlier matches—a match retention ratio of 67.4%. This empirically demonstrates SIFT's rotational invariance, achieved because SIFT assigns a canonical orientation based on local gradient peaks to each keypoint before computing descriptors.*
+> 1. *First, I rotated Image 2 by 45 degrees. SIFT retained 441 good inlier matches—a match retention ratio of 65.4%. This empirically demonstrates SIFT's rotational invariance, achieved because SIFT assigns a canonical orientation based on local gradient peaks to each keypoint before computing descriptors.*
 > 2. *Second, I downscaled Image 2 by 0.6x. Here, SIFT maintained 245 good matches (36.4% retention). As expected, reducing resolution discards high-frequency details, yet SIFT's Gaussian scale-space pyramid successfully matches the remaining scale-normalized octave features."*
 
 ---
@@ -85,7 +85,7 @@
 > *"Now in Task 3, we compare the classical Viola-Jones Haar Cascade classifier with the modern deep learning detector, YOLOv8.*
 > 
 > *On the clean photograph:*
-> - *Viola-Jones executes very quickly on CPU (around 477 ms) and successfully detects faces using rectangular Haar features and an AdaBoost reject cascade.*
+> - *Viola-Jones executes very quickly on CPU (around 321 ms) and successfully detects faces using rectangular Haar features and an AdaBoost reject cascade.*
 > - *YOLOv8 runs a complete CNN forward pass and detects the person with high confidence, providing multi-class detection out of the box.*
 > 
 > *Next, we evaluated an important edge case and detector failure mode:*
@@ -95,20 +95,20 @@
 
 ---
 
-### [5:40 - 6:50] 6. Unit 5: Video Motion Estimation (Task 4)
+### [5:40 - 6:50] 6. Unit 5: Video Motion Estimation on `video_1.mp4` (Task 4)
 **What to show on screen:** Open `outputs/task4_motion/motion_estimation_comparison.png`.
 
-> *"Finally, in Task 4, we examine video motion estimation across three distinct techniques:*
-> 1. *Frame Differencing: By subtracting consecutive frames ($|I_t - I_{t-1}| > T$), it immediately detects moving regions with virtually zero computational overhead (>100 FPS). However, it suffers from two major drawbacks: it produces double ghosts (where the object left and where it entered), and when the person pauses in the room, the moving region completely disappears from the mask.*
-> 2. *GMM Background Subtraction (MOG2): By modeling each pixel as a mixture of Gaussians over time, it establishes an adaptive background model. It generates clean, solid foreground silhouettes, suppresses shadow artifacts, and preserves stopped objects for multiple seconds before slowly assimilating them into the background.*
-> 3. *Lucas-Kanade Optical Flow: Unlike binary spatial masks, Lucas-Kanade solves the optical flow constraint equation under brightness constancy to compute continuous 2D motion velocity vectors ($dx, dy$). As you can see by the vector arrows plotted over the walking subject, it indicates both the direction and speed of motion, making it ideal for trajectory tracking."*
+> *"Finally, in Task 4, we examine video motion estimation applied to our self-recorded video `video_1.mp4` across three distinct techniques:*
+> 1. *Frame Differencing: By subtracting consecutive frames ($|I_t - I_{t-1}| > T$), it immediately detects moving regions such as the dog's head turning, mouth panting, and ear shifts with virtually zero computational overhead (>100 FPS). However, it creates double ghosts (where the head moved from and where it moved to), and when motion pauses, the region vanishes.*
+> 2. *GMM Background Subtraction (MOG2): By modeling each pixel as an adaptive mixture of Gaussians over time, it establishes a continuous background model. It generates clean foreground silhouettes of the dog, suppresses subtle lighting shifts and shadows, and preserves stopped objects.*
+> 3. *Lucas-Kanade Optical Flow: Unlike binary spatial masks, Lucas-Kanade solves the optical flow constraint equation under brightness constancy to compute continuous 2D motion velocity vectors ($dx, dy$). As seen on screen, 155 motion vectors track key feature points around the dog's snout, nose, eyes, and ears, displaying both the direction and magnitude of motion, making it ideal for kinematic trajectory tracking."*
 
 ---
 
 ### [6:50 - 7:30] 7. Conclusion & Git Repository
 **What to show on screen:** Show the Git repository page on GitHub or VS Code with `git status` showing clean commit history, and display the technical report `REPORT.html`.
 
-> *"In conclusion, this assignment provided hands-on experience bridging classical computer vision techniques with modern deep learning paradigms. We proved why non-linear filtering is essential for impulse noise, verified SIFT's mathematical scale and rotation invariance, demonstrated the rotational failure point of Viola-Jones compared to YOLO, and contrasted spatial foreground masks with kinematic optical flow vectors.*
+> *"In conclusion, this assignment provided hands-on experience bridging classical computer vision techniques with modern deep learning paradigms. We proved why non-linear filtering is essential for impulse noise, verified SIFT's mathematical scale and rotation invariance, demonstrated the rotational failure point of Viola-Jones compared to YOLO, and contrasted spatial foreground masks with kinematic optical flow vectors on real self-recorded video.*
 > 
 > *The entire executable source code, requirements, dataset instructions, and documentation are committed and pushed to my Git repository at github.com/DARSH-07/CV-Practical-CCA3.*
 > *Access has been granted to rahul.inchal.inchal24@gmail.com and rahul.inchal.vf@mitwpu.edu.in.*

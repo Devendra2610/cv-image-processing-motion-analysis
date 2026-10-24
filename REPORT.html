@@ -36,7 +36,7 @@
     <ul>
         <li><strong>Primary Photograph (<code>Image_org.jpeg</code>):</strong> Self-captured high-resolution portrait (899 x 1599).</li>
         <li><strong>Second Photograph (<code>Image_2.jpeg</code>):</strong> Transformed view for SIFT invariant feature matching.</li>
-        <li><strong>Video Dataset (<code>sample_video.mp4</code>):</strong> 15-second self-recorded video capturing moving subject with background details.</li>
+        <li><strong>Original Video (<code>video_1.mp4</code>):</strong> Self-recorded video of a Golden Retriever dog (1080 x 1920 portrait, 284 frames, 30 FPS) with dynamic head motion and stable indoor background.</li>
     </ul>
     <h2>2. Unit 3: Image Restoration & Segmentation</h2>
     <h3>Restoration Performance Benchmark (PSNR & SSIM)</h3>
@@ -72,9 +72,9 @@
     <h3>Failure Case Analysis (45 deg Rotated Viewpoint)</h3>
     <img src='outputs/task3_recognition/detector_failure_case_analysis.png' alt='Detector Failure Case'>
     <div class='caption'>Figure 8: Failure case demonstrating Viola-Jones breakdown on rotated viewpoints versus YOLOv8 robustness.</div>
-    <h2>5. Unit 5: Video Motion Estimation</h2>
+    <h2>5. Unit 5: Video Motion Estimation (video_1.mp4)</h2>
     <img src='outputs/task4_motion/motion_estimation_comparison.png' alt='Motion Estimation Comparison'>
-    <div class='caption'>Figure 9: Consecutive frames, frame differencing mask, GMM background subtraction mask, and Lucas-Kanade optical flow vectors.</div>
+    <div class='caption'>Figure 9: Consecutive video frames, frame differencing mask, GMM background subtraction mask, and Lucas-Kanade optical flow vectors on video_1.mp4.</div>
     <table>
         <tr><th>Technique</th><th>Principle</th><th>Complexity</th><th>Camera Sensitivity</th><th>Stationary Object</th><th>Ghosting</th><th>Output</th></tr>
 <tr><td><b>Frame Differencing (|I_t - I_{t-1}|)</b></td><td>Pixel-by-pixel intensity subtraction between consecutive frames with thresholding</td><td>Very Low (O(N) single subtraction per pixel, >100 FPS)</td><td>Extremely High (Any camera tremor lights up entire mask as motion)</td><td>Fails (Moving object becomes invisible the moment it stops moving)</td><td>Double-ghost effect: marks both where object left and where it entered</td><td>Binary spatial mask of pixel changes</td></tr><tr><td><b>GMM Background Subtraction (MOG2)</b></td><td>Models pixel color distributions over time as a mixture of Gaussians</td><td>Moderate (~40-60 FPS, updates adaptive Gaussian parameters)</td><td>Moderate (Handles subtle background motion like leaves, tremors)</td><td>Good (Preserves stopped foreground for several frames before slow assimilation)</td><td>Minimal (Initial ghost clears quickly as background model converges)</td><td>Clean binary foreground segmentation mask with shadow suppression</td></tr><tr><td><b>Lucas-Kanade Optical Flow</b></td><td>Solves optical flow equation under brightness constancy & spatial coherence</td><td>Moderate-High (Calculates spatial image gradients & 2x2 matrix inversions)</td><td>Shows global vector field (Global shift vs local object vectors)</td><td>Vectors drop to zero magnitude (Preserves tracked feature locations)</td><td>None (No background model or ghost silhouettes generated)</td><td>Continuous 2D velocity vectors (dx, dy) with direction and magnitude</td></tr>
@@ -84,7 +84,7 @@
     <ol>
         <li>Median filtering is dramatically superior to linear Gaussian filtering for impulsive salt-and-pepper noise (36.85 dB vs 29.45 dB).</li>
         <li>Marker-controlled watershed successfully mitigates classical oversegmentation.</li>
-        <li>SIFT demonstrates robust rotational invariance (67.36% match retention) and scale tolerance.</li>
+        <li>SIFT demonstrates robust rotational invariance (65.43% match retention) and scale tolerance.</li>
         <li>Deep learning (YOLOv8) provides generalized semantic representations invariant to pose and orientation, whereas Viola-Jones is strictly axis-aligned.</li>
         <li>GMM background subtraction produces clean segmentation masks, while Lucas-Kanade optical flow computes continuous kinematic velocity vectors.</li>
     </ol>
