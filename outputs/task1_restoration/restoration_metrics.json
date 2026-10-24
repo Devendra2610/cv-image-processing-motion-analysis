@@ -1,0 +1,26 @@
+{
+    "Gaussian_Noisy": [
+        20.23,
+        0.167
+    ],
+    "Gaussian_restored_GaussianFilter": [
+        31.65,
+        0.7493
+    ],
+    "Gaussian_restored_MedianFilter": [
+        30.56,
+        0.6922
+    ],
+    "SaltPepper_Noisy": [
+        17.89,
+        0.1926
+    ],
+    "SaltPepper_restored_GaussianFilter": [
+        29.45,
+        0.6689
+    ],
+    "SaltPepper_restored_MedianFilter": [
+        36.85,
+        0.935
+    ]
+}

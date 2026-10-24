@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<title>Computer Vision Practical Assignment Report - Devendra Agrawal</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #24292e; max-width: 1050px; margin: 40px auto; padding: 0 20px; background-color: #fafbfc; }
+    .container { background: #ffffff; border: 1px solid #e1e4e8; border-radius: 8px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    h1, h2, h3, h4 { color: #1a202c; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+    h1 { font-size: 2.2em; border-bottom: 2px solid #0366d6; color: #0366d6; }
+    h2 { font-size: 1.5em; margin-top: 28px; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; }
+    th, td { border: 1px solid #dfe2e5; padding: 10px 14px; text-align: left; }
+    th { background-color: #f6f8fa; font-weight: 600; }
+    tr:nth-child(even) { background-color: #fcfcfc; }
+    img { max-width: 100%; height: auto; border-radius: 6px; border: 1px solid #d1d5da; margin: 15px 0; display: block; }
+    .caption { font-size: 0.9em; color: #586069; font-style: italic; margin-top: -10px; margin-bottom: 20px; }
+    .badge { display: inline-block; padding: 4px 10px; font-size: 0.85em; font-weight: 600; border-radius: 12px; background: #e1f5fe; color: #0277bd; margin-right: 8px; }
+    .footer { margin-top: 40px; font-size: 0.85em; color: #6a737d; text-align: center; border-top: 1px solid #e1e4e8; padding-top: 20px; }
+</style>
+</head>
+<body>
+<div class='container'>
+    <h1>Computer Vision (CCA 3) — Technical Report</h1>
+    <p><strong>Practical Coding Assignment — Units 3, 4, and 5</strong></p>
+    <p>
+        <span class='badge'>Student: Devendra Agrawal</span>
+        <span class='badge'>GitHub: DARSH-07</span>
+        <span class='badge'>Repository: CV-Practical-CCA3</span>
+    </p>
+    <p><strong>Evaluator Access Granted:</strong> <code>rahul.inchal.inchal24@gmail.com</code> | <code>rahul.inchal.vf@mitwpu.edu.in</code></p>
+    <p><strong>Project Explanation Video URL:</strong> <em>[Paste Google Drive Video Link Here]</em></p>
+    <hr>
+    <h2>1. Executive Summary & Input Dataset</h2>
+    <p>This report documents the implementation and performance evaluation of algorithms from image restoration, segmentation, feature matching, object recognition, and video motion estimation.</p>
+    <ul>
+        <li><strong>Primary Photograph (<code>Image_org.jpeg</code>):</strong> Self-captured high-resolution portrait (899 x 1599).</li>
+        <li><strong>Second Photograph (<code>Image_2.jpeg</code>):</strong> Transformed view for SIFT invariant feature matching.</li>
+        <li><strong>Video Dataset (<code>sample_video.mp4</code>):</strong> 15-second self-recorded video capturing moving subject with background details.</li>
+    </ul>
+    <h2>2. Unit 3: Image Restoration & Segmentation</h2>
+    <h3>Restoration Performance Benchmark (PSNR & SSIM)</h3>
+    <table>
+        <tr><th>Condition</th><th>PSNR (dB)</th><th>SSIM</th></tr>
+<tr><td><b>Gaussian Noisy</b></td><td>20.23 dB</td><td>0.167</td></tr><tr><td><b>Gaussian restored GaussianFilter</b></td><td>31.65 dB</td><td>0.7493</td></tr><tr><td><b>Gaussian restored MedianFilter</b></td><td>30.56 dB</td><td>0.6922</td></tr><tr><td><b>SaltPepper Noisy</b></td><td>17.89 dB</td><td>0.1926</td></tr><tr><td><b>SaltPepper restored GaussianFilter</b></td><td>29.45 dB</td><td>0.6689</td></tr><tr><td><b>SaltPepper restored MedianFilter</b></td><td>36.85 dB</td><td>0.935</td></tr>
+    </table>
+    <img src='outputs/task1_restoration/restoration_comparison.png' alt='Restoration Comparison'>
+    <div class='caption'>Figure 1: Original image, Gaussian and Salt & Pepper noisy versions, and corresponding Gaussian and Median filter restorations.</div>
+    <h3>Morphological Processing & Canny Edge Detection</h3>
+    <img src='outputs/task1_segmentation/morphological_operations_grid.png' alt='Morphological Operations'>
+    <div class='caption'>Figure 2: Otsu binary mask, adaptive thresholding, and morphological operations.</div>
+    <img src='outputs/task1_segmentation/canny_edge_detection.png' alt='Canny Edge Detection'>
+    <div class='caption'>Figure 3: Canny edge detection sensitivity across varying hysteresis thresholds.</div>
+    <h3>Marker-Controlled Watershed Segmentation</h3>
+    <img src='outputs/task1_segmentation/watershed_segmentation.png' alt='Watershed Segmentation'>
+    <div class='caption'>Figure 4: Complete distance transform and marker-controlled watershed segmentation pipeline.</div>
+    <h2>3. Unit 4: Feature Extraction and Matching</h2>
+    <h3>Histogram of Oriented Gradients (HOG)</h3>
+    <img src='outputs/task2_features/hog_visualization.png' alt='HOG Visualization'>
+    <div class='caption'>Figure 5: HOG feature gradient vector field (29,484 descriptor dimensions).</div>
+    <h3>SIFT Keypoint Matching & Invariance Evaluation</h3>
+    <table>
+        <tr><th>Experiment Condition</th><th>Image 1 KPs</th><th>Image 2 KPs</th><th>Raw Matches</th><th>Good Matches</th><th>Retention Ratio</th></tr>
+<tr><td><b>Original Pair (Image 1 vs Image 2)</b></td><td>674</td><td>725</td><td>674</td><td>470</td><td><b>69.73%</b></td></tr><tr><td><b>Rotated Image 2 (45 degrees)</b></td><td>674</td><td>1859</td><td>674</td><td>454</td><td><b>67.36%</b></td></tr><tr><td><b>Rescaled Image 2 (0.6x downscaled)</b></td><td>674</td><td>398</td><td>674</td><td>245</td><td><b>36.35%</b></td></tr>
+    </table>
+    <img src='outputs/task2_features/feature_matching_comparison.png' alt='SIFT Matching Comparison'>
+    <div class='caption'>Figure 6: Baseline matching, 45-degree rotation matching, and 0.6x resizing matching.</div>
+    <h2>4. Unit 5: Object Recognition (Viola-Jones vs YOLOv8)</h2>
+    <p>Viola-Jones detected 2 faces in 477.9 ms. YOLOv8 detected 1 person in 3781.7 ms.</p>
+    <img src='outputs/task3_recognition/detector_comparison_normal.png' alt='Detector Comparison'>
+    <div class='caption'>Figure 7: Viola-Jones Haar Cascade vs YOLOv8 on original photograph.</div>
+    <h3>Failure Case Analysis (45 deg Rotated Viewpoint)</h3>
+    <img src='outputs/task3_recognition/detector_failure_case_analysis.png' alt='Detector Failure Case'>
+    <div class='caption'>Figure 8: Failure case demonstrating Viola-Jones breakdown on rotated viewpoints versus YOLOv8 robustness.</div>
+    <h2>5. Unit 5: Video Motion Estimation</h2>
+    <img src='outputs/task4_motion/motion_estimation_comparison.png' alt='Motion Estimation Comparison'>
+    <div class='caption'>Figure 9: Consecutive frames, frame differencing mask, GMM background subtraction mask, and Lucas-Kanade optical flow vectors.</div>
+    <table>
+        <tr><th>Technique</th><th>Principle</th><th>Complexity</th><th>Camera Sensitivity</th><th>Stationary Object</th><th>Ghosting</th><th>Output</th></tr>
+<tr><td><b>Frame Differencing (|I_t - I_{t-1}|)</b></td><td>Pixel-by-pixel intensity subtraction between consecutive frames with thresholding</td><td>Very Low (O(N) single subtraction per pixel, >100 FPS)</td><td>Extremely High (Any camera tremor lights up entire mask as motion)</td><td>Fails (Moving object becomes invisible the moment it stops moving)</td><td>Double-ghost effect: marks both where object left and where it entered</td><td>Binary spatial mask of pixel changes</td></tr><tr><td><b>GMM Background Subtraction (MOG2)</b></td><td>Models pixel color distributions over time as a mixture of Gaussians</td><td>Moderate (~40-60 FPS, updates adaptive Gaussian parameters)</td><td>Moderate (Handles subtle background motion like leaves, tremors)</td><td>Good (Preserves stopped foreground for several frames before slow assimilation)</td><td>Minimal (Initial ghost clears quickly as background model converges)</td><td>Clean binary foreground segmentation mask with shadow suppression</td></tr><tr><td><b>Lucas-Kanade Optical Flow</b></td><td>Solves optical flow equation under brightness constancy & spatial coherence</td><td>Moderate-High (Calculates spatial image gradients & 2x2 matrix inversions)</td><td>Shows global vector field (Global shift vs local object vectors)</td><td>Vectors drop to zero magnitude (Preserves tracked feature locations)</td><td>None (No background model or ghost silhouettes generated)</td><td>Continuous 2D velocity vectors (dx, dy) with direction and magnitude</td></tr>
+    </table>
+    <h2>6. Technical Conclusion</h2>
+    <p>The experimental results confirm that:</p>
+    <ol>
+        <li>Median filtering is dramatically superior to linear Gaussian filtering for impulsive salt-and-pepper noise (36.85 dB vs 29.45 dB).</li>
+        <li>Marker-controlled watershed successfully mitigates classical oversegmentation.</li>
+        <li>SIFT demonstrates robust rotational invariance (67.36% match retention) and scale tolerance.</li>
+        <li>Deep learning (YOLOv8) provides generalized semantic representations invariant to pose and orientation, whereas Viola-Jones is strictly axis-aligned.</li>
+        <li>GMM background subtraction produces clean segmentation masks, while Lucas-Kanade optical flow computes continuous kinematic velocity vectors.</li>
+    </ol>
+    <div class='footer'>
+        Computer Vision Practical Assignment (CCA 3) &bull; Devendra Agrawal &bull; Completed 2026
+    </div>
+</div>
+</body>
+</html>

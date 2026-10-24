@@ -1,0 +1,29 @@
+[
+    {
+        "Technique": "Frame Differencing (|I_t - I_{t-1}|)",
+        "Underlying Principle": "Pixel-by-pixel intensity subtraction between consecutive frames with thresholding",
+        "Computational Complexity": "Very Low (O(N) single subtraction per pixel, >100 FPS)",
+        "Camera Shake Sensitivity": "Extremely High (Any camera tremor lights up entire mask as motion)",
+        "Stationary Object Behavior": "Fails (Moving object becomes invisible the moment it stops moving)",
+        "Ghosting Artifacts": "Double-ghost effect: marks both where object left and where it entered",
+        "Output Representation": "Binary spatial mask of pixel changes"
+    },
+    {
+        "Technique": "GMM Background Subtraction (MOG2)",
+        "Underlying Principle": "Models pixel color distributions over time as a mixture of Gaussians",
+        "Computational Complexity": "Moderate (~40-60 FPS, updates adaptive Gaussian parameters)",
+        "Camera Shake Sensitivity": "Moderate (Handles subtle background motion like leaves, tremors)",
+        "Stationary Object Behavior": "Good (Preserves stopped foreground for several frames before slow assimilation)",
+        "Ghosting Artifacts": "Minimal (Initial ghost clears quickly as background model converges)",
+        "Output Representation": "Clean binary foreground segmentation mask with shadow suppression"
+    },
+    {
+        "Technique": "Lucas-Kanade Optical Flow",
+        "Underlying Principle": "Solves optical flow equation under brightness constancy & spatial coherence",
+        "Computational Complexity": "Moderate-High (Calculates spatial image gradients & 2x2 matrix inversions)",
+        "Camera Shake Sensitivity": "Shows global vector field (Global shift vs local object vectors)",
+        "Stationary Object Behavior": "Vectors drop to zero magnitude (Preserves tracked feature locations)",
+        "Ghosting Artifacts": "None (No background model or ghost silhouettes generated)",
+        "Output Representation": "Continuous 2D velocity vectors (dx, dy) with direction and magnitude"
+    }
+]

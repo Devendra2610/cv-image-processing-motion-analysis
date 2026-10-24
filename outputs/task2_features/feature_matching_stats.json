@@ -1,0 +1,26 @@
+{
+    "Baseline": {
+        "condition": "Original Pair (Image 1 vs Image 2)",
+        "keypoints_img1": 674,
+        "keypoints_img2": 725,
+        "raw_matches": 674,
+        "good_matches": 470,
+        "match_ratio_pct": 69.73
+    },
+    "Rotated_45deg": {
+        "condition": "Rotated Image 2 (45 degrees)",
+        "keypoints_img1": 674,
+        "keypoints_img2": 1859,
+        "raw_matches": 674,
+        "good_matches": 454,
+        "match_ratio_pct": 67.36
+    },
+    "Resized_0.6x": {
+        "condition": "Rescaled Image 2 (0.6x downscaled)",
+        "keypoints_img1": 674,
+        "keypoints_img2": 398,
+        "raw_matches": 674,
+        "good_matches": 245,
+        "match_ratio_pct": 36.35
+    }
+}

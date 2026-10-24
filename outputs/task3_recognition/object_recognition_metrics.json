@@ -1,0 +1,51 @@
+{
+    "normal_test": {
+        "viola_jones": {
+            "num_detections": 2,
+            "latency_ms": 477.92,
+            "detections": [
+                {
+                    "class": "Face",
+                    "bbox": [
+                        286,
+                        735,
+                        373,
+                        822
+                    ],
+                    "confidence": null
+                },
+                {
+                    "class": "Face",
+                    "bbox": [
+                        193,
+                        169,
+                        453,
+                        429
+                    ],
+                    "confidence": null
+                }
+            ]
+        },
+        "yolo": {
+            "num_detections": 1,
+            "latency_ms": 3781.65,
+            "detections": [
+                {
+                    "class": "person",
+                    "bbox": [
+                        1,
+                        80,
+                        559,
+                        998
+                    ],
+                    "confidence": 0.931
+                }
+            ]
+        }
+    },
+    "rotation_failure_test": {
+        "viola_jones_detections": 0,
+        "yolo_detections": 1,
+        "observation": "Viola-Jones missed the rotated face completely (0 detections), while YOLO successfully identified the person."
+    }
+}
