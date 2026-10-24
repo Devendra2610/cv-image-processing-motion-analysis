@@ -127,7 +127,7 @@ Multi-stage optimal edge detection: Gaussian smoothing -> Sobel gradient magnitu
 | Matching Condition | Image 1 KPs | Image 2 KPs | Raw Matches | Good Inlier Matches | Match Retention Ratio |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Original Pair (Image 1 vs Image 2)** | 674 | 725 | 674 | 470 | **69.73%** |
-| **Rotated Image 2 (45 degrees)** | 674 | 1859 | 674 | 454 | **67.36%** |
+| **Rotated Image 2 (45 degrees)** | 674 | 1822 | 674 | 441 | **65.43%** |
 | **Rescaled Image 2 (0.6x downscaled)** | 674 | 398 | 674 | 245 | **36.35%** |
 
 #### Invariance Analysis
@@ -152,7 +152,7 @@ Multi-stage optimal edge detection: Gaussian smoothing -> Sobel gradient magnitu
 | **Model Type** | Handcrafted Rectangular Cascades | Deep CNN (CSPDarknet + PANet) |
 | **Classes Supported** | Single class (Face only) | 80 Multi-class COCO categories |
 | **Normal Test Detections** | 2 faces detected | 1 person detected (high confidence) |
-| **Inference Latency** | **477.9 ms** (Lightweight CPU) | 3781.7 ms (PyTorch CPU forward pass) |
+| **Inference Latency** | **321.4 ms** (Lightweight CPU) | 3059.1 ms (PyTorch CPU forward pass) |
 | **Bounding Box Precision** | Approximate facial bounds | Precise multi-object bounding boxes |
 
 ![Detector Comparison Normal](outputs/task3_recognition/detector_comparison_normal.png)

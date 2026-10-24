@@ -61,12 +61,12 @@
     <h3>SIFT Keypoint Matching & Invariance Evaluation</h3>
     <table>
         <tr><th>Experiment Condition</th><th>Image 1 KPs</th><th>Image 2 KPs</th><th>Raw Matches</th><th>Good Matches</th><th>Retention Ratio</th></tr>
-<tr><td><b>Original Pair (Image 1 vs Image 2)</b></td><td>674</td><td>725</td><td>674</td><td>470</td><td><b>69.73%</b></td></tr><tr><td><b>Rotated Image 2 (45 degrees)</b></td><td>674</td><td>1859</td><td>674</td><td>454</td><td><b>67.36%</b></td></tr><tr><td><b>Rescaled Image 2 (0.6x downscaled)</b></td><td>674</td><td>398</td><td>674</td><td>245</td><td><b>36.35%</b></td></tr>
+<tr><td><b>Original Pair (Image 1 vs Image 2)</b></td><td>674</td><td>725</td><td>674</td><td>470</td><td><b>69.73%</b></td></tr><tr><td><b>Rotated Image 2 (45 degrees)</b></td><td>674</td><td>1822</td><td>674</td><td>441</td><td><b>65.43%</b></td></tr><tr><td><b>Rescaled Image 2 (0.6x downscaled)</b></td><td>674</td><td>398</td><td>674</td><td>245</td><td><b>36.35%</b></td></tr>
     </table>
     <img src='outputs/task2_features/feature_matching_comparison.png' alt='SIFT Matching Comparison'>
     <div class='caption'>Figure 6: Baseline matching, 45-degree rotation matching, and 0.6x resizing matching.</div>
     <h2>4. Unit 5: Object Recognition (Viola-Jones vs YOLOv8)</h2>
-    <p>Viola-Jones detected 2 faces in 477.9 ms. YOLOv8 detected 1 person in 3781.7 ms.</p>
+    <p>Viola-Jones detected 2 faces in 321.4 ms. YOLOv8 detected 1 person in 3059.1 ms.</p>
     <img src='outputs/task3_recognition/detector_comparison_normal.png' alt='Detector Comparison'>
     <div class='caption'>Figure 7: Viola-Jones Haar Cascade vs YOLOv8 on original photograph.</div>
     <h3>Failure Case Analysis (45 deg Rotated Viewpoint)</h3>
