@@ -10,10 +10,10 @@
     "Rotated_45deg": {
         "condition": "Rotated Image 2 (45 degrees)",
         "keypoints_img1": 674,
-        "keypoints_img2": 1859,
+        "keypoints_img2": 1822,
         "raw_matches": 674,
-        "good_matches": 454,
-        "match_ratio_pct": 67.36
+        "good_matches": 441,
+        "match_ratio_pct": 65.43
     },
     "Resized_0.6x": {
         "condition": "Rescaled Image 2 (0.6x downscaled)",

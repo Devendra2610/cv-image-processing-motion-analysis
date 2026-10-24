@@ -2,7 +2,7 @@
     "normal_test": {
         "viola_jones": {
             "num_detections": 2,
-            "latency_ms": 477.92,
+            "latency_ms": 321.39,
             "detections": [
                 {
                     "class": "Face",
@@ -28,7 +28,7 @@
         },
         "yolo": {
             "num_detections": 1,
-            "latency_ms": 3781.65,
+            "latency_ms": 3059.14,
             "detections": [
                 {
                     "class": "person",
