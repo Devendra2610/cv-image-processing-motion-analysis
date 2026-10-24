@@ -4,8 +4,8 @@
 ---
 
 **Student Name:** Devendra Agrawal  
-**GitHub Profile / Username:** DARSH-07  
-**Repository URL:** [https://github.com/DARSH-07/CV-Practical-CCA3](https://github.com/DARSH-07/CV-Practical-CCA3) *(or designated repository)*  
+**GitHub Profile / Username:** Devendra2610  
+**Repository URL:** [https://github.com/Devendra2610/cv-image-processing-motion-analysis](https://github.com/Devendra2610/cv-image-processing-motion-analysis)  
 **Project Explanation Video Link:** `[Google Drive Video Link - Enter URL Here]`  
 **Reviewer / Evaluator Access Granted:**  
 - `rahul.inchal.inchal24@gmail.com`  

@@ -1,7 +1,8 @@
 # Computer Vision Practical Coding Assignment (CCA 3)
 ### Practical Implementation of Units 3, 4, and 5
 **Student Name:** Devendra Agrawal  
-**GitHub Profile:** [DARSH-07](https://github.com/DARSH-07)  
+**GitHub Profile:** [Devendra2610](https://github.com/Devendra2610)  
+**Repository:** [cv-image-processing-motion-analysis](https://github.com/Devendra2610/cv-image-processing-motion-analysis)  
 **Evaluator Access Granted:** `rahul.inchal.inchal24@gmail.com`, `rahul.inchal.vf@mitwpu.edu.in`  
 
 ---
@@ -69,8 +70,8 @@ CV/
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/DARSH-07/CV-Practical-CCA3.git
-cd CV-Practical-CCA3
+git clone https://github.com/Devendra2610/cv-image-processing-motion-analysis.git
+cd cv-image-processing-motion-analysis
 ```
 
 ### 3. Install Dependencies
@@ -168,5 +169,5 @@ A detailed spoken video presentation script is available in [`presentation_scrip
 
 ## 👤 Author & Academic Integrity
 - **Student:** Devendra Agrawal
-- **GitHub:** [DARSH-07](https://github.com/DARSH-07)
+- **GitHub:** [Devendra2610](https://github.com/Devendra2610)
 - **Assignment:** Computer Vision CCA 3 (Units 3, 4, and 5)

@@ -37,10 +37,10 @@ def add_code(code):
 add_md("""# Practical Coding Assignment: Units 3, 4, and 5
 ### Computer Vision (CCA 3) — Google Colab Interactive Notebook
 **Student Name:** Devendra Agrawal  
-**GitHub Profile:** [DARSH-07](https://github.com/DARSH-07)  
+**GitHub Profile:** [Devendra2610](https://github.com/Devendra2610)  
 **Evaluator Access Granted:** `rahul.inchal.inchal24@gmail.com` | `rahul.inchal.vf@mitwpu.edu.in`  
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DARSH-07/CV-Practical-CCA3/blob/main/CV_CCA3_Assignment.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Devendra2610/cv-image-processing-motion-analysis/blob/main/CV_CCA3_Assignment.ipynb)
 
 This Google Colab notebook implements and executes all practical assignment tasks:
 - **Unit 3 (Task 1):** Image Restoration (Gaussian & Impulse noise, Linear vs Non-linear filtering, PSNR/SSIM) & Segmentation (Thresholding, Morphology, Canny, Watershed)

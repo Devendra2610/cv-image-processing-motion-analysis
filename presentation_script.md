@@ -1,7 +1,7 @@
 # 5–8 Minute Project Explanation Video Presentation Script
 **Course:** Computer Vision (CCA 3) — Practical Coding Assignment (Units 3, 4 & 5)  
 **Presenter / Student Name:** Devendra Agrawal  
-**GitHub Username:** DARSH-07  
+**GitHub Username:** Devendra2610  
 **Submission Evaluator Access:** rahul.inchal.inchal24@gmail.com, rahul.inchal.vf@mitwpu.edu.in  
 
 ---
@@ -110,7 +110,7 @@
 
 > *"In conclusion, this assignment provided hands-on experience bridging classical computer vision techniques with modern deep learning paradigms. We proved why non-linear filtering is essential for impulse noise, verified SIFT's mathematical scale and rotation invariance, demonstrated the rotational failure point of Viola-Jones compared to YOLO, and contrasted spatial foreground masks with kinematic optical flow vectors on real self-recorded video.*
 > 
-> *The entire executable source code, requirements, dataset instructions, and documentation are committed and pushed to my Git repository at github.com/DARSH-07/CV-Practical-CCA3.*
+> *The entire executable source code, requirements, dataset instructions, and documentation are committed and pushed to my Git repository at github.com/Devendra2610/cv-image-processing-motion-analysis.*
 > *Access has been granted to rahul.inchal.inchal24@gmail.com and rahul.inchal.vf@mitwpu.edu.in.*
 > 
 > *Thank you very much for your time and guidance!"*
